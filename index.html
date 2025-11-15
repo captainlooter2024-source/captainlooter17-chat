@@ -1,75 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Twitch Chat Overlay</title>
-<style>
-    body {
-        margin: 0;
-        background: rgba(0, 0, 0, 0);
-        overflow: hidden;
-        font-family: Arial, sans-serif;
+  <meta charset="UTF-8">
+  <title>Chat - captainlooter17</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+      overflow: hidden;
     }
-    #chat {
-        width: 100%;
-        height: 100vh;
-        background: rgba(0,0,0,0.4);
-        color: white;
-        font-size: 20px;
-        padding: 10px;
-        box-sizing: border-box;
-        overflow-y: scroll;
+    .wrapper {
+      width: 100vw;
+      height: 100vh;
     }
-    .message {
-        margin-bottom: 12px;
-        line-height: 1.3em;
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
     }
-    .name {
-        font-weight: bold;
-        color: #7aa2ff;
-    }
-</style>
+  </style>
 </head>
 <body>
-
-<div id="chat"></div>
-
-<script>
-    const channel = "captainlooter17";
-
-    const ws = new WebSocket("wss://irc-ws.chat.twitch.tv:443");
-
-    ws.onopen = () => {
-        ws.send("CAP REQ :twitch.tv/tags twitch.tv/commands");
-        ws.send("PASS oauth:anonymous");
-        ws.send("NICK justinfan12345");
-        ws.send(`JOIN #${channel}`);
-    };
-
-    ws.onmessage = (event) => {
-        const data = event.data;
-        if (!data.includes("PRIVMSG")) return;
-
-        const parts = data.split(";");
-        let username = "user";
-        let message = "";
-
-        for (let p of parts) {
-            if (p.startsWith("display-name=")) username = p.replace("display-name=", "");
-            if (p.includes("PRIVMSG")) {
-                message = p.substring(p.indexOf("PRIVMSG")).split(":").slice(1).join(":");
-            }
-        }
-
-        const chat = document.getElementById("chat");
-        const bubble = document.createElement("div");
-        bubble.classList.add("message");
-        bubble.innerHTML = `<span class="name">${username}:</span> ${message}`;
-        chat.appendChild(bubble);
-
-        chat.scrollTop = chat.scrollHeight;
-    };
-</script>
-
+  <div class="wrapper">
+    <iframe
+      src="https://www.twitch.tv/embed/captainlooter17/chat?parent=captainlooter2024-source.github.io&theme=dark">
+    </iframe>
+  </div>
 </body>
 </html>
